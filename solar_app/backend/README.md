@@ -1,0 +1,1 @@
+This Python backend provides user registration, Firebase Authentication integration, and automatic assignment of custom claims (role) using Firebase Admin SDK and Firestore.
