@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:syncfusion_flutter_gauges/gauges.dart'; // For Linear Gauge
 import 'package:syncfusion_flutter_sliders/sliders.dart'; // Still needed for sliders if used elsewhere
-
+import 'package:http/http.dart' as http;
 
 class ManufacturerSetupPage extends StatefulWidget {
+  final String UniqueUserId;
+  const ManufacturerSetupPage({Key? key, required this.UniqueUserId}): super(key: key);
+
   @override
   State<ManufacturerSetupPage> createState() => _ProgrammingSetupPageState();
 }
@@ -49,8 +53,50 @@ class _ProgrammingSetupPageState extends State<ManufacturerSetupPage> {
     });
   }
 
+  Future<void> sendData(Map<String, dynamic> payload) async {
+  final url = Uri.parse("https://xxe0b86lid.execute-api.ap-south-1.amazonaws.com/first/saveDB"); // Replace
+
+  try {
+    print("playload: ${jsonEncode(payload)}");
+    final response = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: utf8.encode(jsonEncode(payload)),
+    );
+    print("status code: ${response.statusCode}");
+
+    if (response.statusCode == 200) {
+      print("Success: ${response.body}");
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Message send successfully"),
+          duration: Duration(seconds: 3),
+          backgroundColor: Colors.green,
+          ),
+        );
+    } else {
+      print("Failed with status: ${response.statusCode}, body: ${response.body}");
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Not send data"),
+          duration: Duration(seconds: 3),
+          backgroundColor: Colors.red,
+          ),
+        );
+    }
+  } catch (e) {
+    print("Error sending request: $e");
+    ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error sending request: $e"),
+          duration: Duration(seconds: 3),
+          backgroundColor: Colors.pink,
+          ),
+        );
+  }
+}
+
+
   // Simulate configuration generation
   void onGenerate() {
+    print('uid: ${widget.UniqueUserId}');
     print('Tag: ${tagNameController.text}');
     print('Device Count: ${numberOfDevicesController.text}');
     print('Version: $selectedDeviceVersion');
@@ -59,6 +105,22 @@ class _ProgrammingSetupPageState extends State<ManufacturerSetupPage> {
       print('RMS is enabled. APN: ${apnController.text}');
     }
     print('Configuration generated!');
+    Map<String, dynamic> payload = {
+      "UniqueUserId": widget.UniqueUserId,
+     "TagName": tagNameController.text,
+     "NumberOfDevices": int.tryParse(numberOfDevicesController.text) ?? 1,
+     "DeviceVersion": selectedDeviceVersion,
+     "DeviceType": selectedDeviceType,
+     "RMSEnabled": isRMSSelected,
+     "APNEndpoint": "apn.example.com",
+     "Brightness": brightness,
+      "SolarPanelVoltage": solarVoltage,
+     "SolarPanelPower": solarPower,
+     "BatteryVoltage": batteryVoltage,
+      "LoadLedPower": loadLedPower
+    };
+
+   sendData(payload);
   }
 
   // Gauge builder with only violet bar (interactive)

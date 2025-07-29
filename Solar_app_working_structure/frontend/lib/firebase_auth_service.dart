@@ -1,9 +1,10 @@
-import 'package:final_structure/manufacture.dart';
 import 'package:final_structure/seller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'manufactuire_swtich.dart';
+import 'seller_switch.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -40,6 +41,7 @@ class AuthService {
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final String role = data['role'];
+        final String uid=data['uid'];
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Login successful as $role"),
@@ -50,9 +52,9 @@ class AuthService {
 
         // Step 5: Navigate based on role
         if (role == 'manufacturer') {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> ManufacturerSetupPage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> Manufacture_switch(pass: uid)));
         } else if (role == 'seller') {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> sellersetuppage()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> Seller_switch()));
         } else {
           throw Exception("Unknown role: $role");
         }
