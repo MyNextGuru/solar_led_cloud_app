@@ -162,7 +162,11 @@ class _ProgrammingSetupPageState extends State<ManufacturerSetupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Programming Setup')),
+      appBar: AppBar(
+        backgroundColor: Colors.amber,
+        title: Center(child: Text("SolarApp"),),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(

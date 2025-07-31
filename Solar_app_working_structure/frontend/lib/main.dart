@@ -39,6 +39,7 @@ class EmailPasswordLogin extends StatefulWidget {
 class _EmailPasswordLoginState extends State<EmailPasswordLogin> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool passwordview=true;
 
   void loginUser() {
     context.read<AuthService>().loginAndNavigate(
@@ -51,15 +52,26 @@ class _EmailPasswordLoginState extends State<EmailPasswordLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.amber,
+        title: Center(child: Text("SolarApp"),),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 100),
-            const Text(
-              "Login",
-              style: TextStyle(fontSize: 30),
-            ),
+            RichText(text: TextSpan(
+              style: TextStyle(
+                color: Colors.amber,
+                fontSize: 30
+              ),
+              children: <TextSpan> [
+                TextSpan(text: "Log"),
+                TextSpan(text: "In",style: TextStyle(color: Colors.black))
+              ],
+            )),
             SizedBox(height: MediaQuery.of(context).size.height * 0.08),
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -83,7 +95,7 @@ class _EmailPasswordLoginState extends State<EmailPasswordLogin> {
               margin: const EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
                 controller: passwordController,
-                obscureText: true,
+                obscureText: passwordview,
                 decoration: InputDecoration(
                   hintText: "Enter your password",
                   enabledBorder: OutlineInputBorder(
@@ -94,9 +106,23 @@ class _EmailPasswordLoginState extends State<EmailPasswordLogin> {
                     borderRadius: BorderRadius.circular(20),
                     borderSide: const BorderSide(color: Colors.green),
                   ),
+                  suffixIcon: IconButton(onPressed: (){
+                    setState(() {
+                      if(passwordview==true)
+                      {
+                        passwordview=false;
+                      }
+                      else
+                      {
+                        passwordview=true;
+                      }
+                    });
+                  }, icon: Icon(Icons.remove_red_eye)
+                  )
+                  ),
                 ),
               ),
-            ),
+
             const SizedBox(height: 40),
             ElevatedButton(
               onPressed: loginUser,

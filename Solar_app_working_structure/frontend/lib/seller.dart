@@ -48,7 +48,7 @@ class _DeviceReportPageState extends State<sellersetuppage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Device Report'),
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.amber,
         centerTitle: true,
       ),
       body: Padding(

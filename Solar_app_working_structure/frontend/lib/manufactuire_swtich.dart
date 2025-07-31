@@ -10,6 +10,11 @@ class Manufacture_switch extends StatelessWidget
   Widget build(BuildContext context)
   {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.amber,
+        title: Center(child: Text("SolarApp"),),
+        centerTitle: true,
+      ),
       body: Center(child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -22,7 +27,7 @@ class Manufacture_switch extends StatelessWidget
             child: Text("Device Configuration"),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blue,
-              foregroundColor: Colors.white
+              foregroundColor: Colors.white,
             ),
             ),
           ),
