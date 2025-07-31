@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:io';
+import 'main.dart';
 
 class sellersetuppage extends StatefulWidget {
   const sellersetuppage({super.key});
@@ -50,6 +51,11 @@ class _DeviceReportPageState extends State<sellersetuppage> {
         title: const Text('Device Report'),
         backgroundColor: Colors.amber,
         centerTitle: true,
+        actions: [
+          IconButton(onPressed: (){
+             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> EmailPasswordLogin()), (Route<dynamic> route) => false);
+          }, icon: Icon(Icons.logout))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),

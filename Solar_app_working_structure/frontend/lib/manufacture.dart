@@ -1,8 +1,10 @@
+import 'package:final_structure/main.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:syncfusion_flutter_gauges/gauges.dart'; // For Linear Gauge
 import 'package:syncfusion_flutter_sliders/sliders.dart'; // Still needed for sliders if used elsewhere
 import 'package:http/http.dart' as http;
+import 'main.dart';
 
 class ManufacturerSetupPage extends StatefulWidget {
   final String UniqueUserId;
@@ -166,6 +168,11 @@ class _ProgrammingSetupPageState extends State<ManufacturerSetupPage> {
         backgroundColor: Colors.amber,
         title: Center(child: Text("SolarApp"),),
         centerTitle: true,
+        actions: [
+          IconButton(onPressed: (){
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> EmailPasswordLogin()), (Route<dynamic> route) => false);
+          }, icon: Icon(Icons.logout)),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
